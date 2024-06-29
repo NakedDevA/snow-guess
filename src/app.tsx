@@ -13,6 +13,7 @@ export const App = () => {
 					react-ts-starter
 				</a>
 			</p>
+			Redeploy 29/06
 			<span>
 				Click the button to prove React is working. If the number goes up, then
 				everything is good 👍
