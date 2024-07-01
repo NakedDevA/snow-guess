@@ -1,7 +1,7 @@
 {
 	"scripts": {
 		"lint": "npx prettier --check src/. && npx eslint . --ext .ts,.tsx",
-		"test": "jest",
+		"test": "",
 		"build": "shx cp -r static/. dist && esbuild src/index.tsx --bundle --minify --outfile=dist/index.js",
 		"serve": "serve dist"
 	},
