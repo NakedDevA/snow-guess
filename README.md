@@ -1,18 +1,10 @@
-# React TypeScript Starter
+# Snowguessr
 
-A simple template repository for setting up React/TypeScript projects.
+Uses a state machine for game flow
+Fake API until there's a real endpoint
+Fake DB using localstorage
 
-Renders the classic counter component to demonstrate proof of concept.
+# Deploy
+Deploy via github pages using triggered build.
 
-Deployed build output at [react-ts-starter](https://fildon.me/react-ts-starter/).
 
-## Features
-
-- TypeScript
-- React
-- Prettier
-- Eslint
-- Jest
-- Github actions
-  - Lint and test PRs to `main`
-  - Lint, test and deploy to github pages on every merge to `main`

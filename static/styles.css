@@ -19,40 +19,149 @@ header {
 	padding: 0;
 }
 body {
-	margin: auto;
+	margin: 0;
+	font-family: neo-sans, sans-serif;
 }
 
-main * {
-	max-width: var(--measure);
+button {
+	margin: 3px;
+	border: none;
+	background-color: gray;
+	padding: 5px;
+	border-radius: 2px;
+	transition: all 200ms;
+	cursor: pointer;
+	&:hover {
+		background-color: aqua;
+	}
+	&:disabled:hover {
+		background-color: gray;
+	}
 }
-
-section {
-	border: 1px solid black;
-}
-
-/* Composition */
-.stack {
+.main {
+	background-color: #131414;
+	height: 100vh;
 	display: flex;
 	flex-direction: column;
-	justify-content: flex-start;
+	align-items: center;
+	justify-content: center;
+	overflow: hidden;
+
+	.game-container {
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+		height: 100%;
+		width: 100%;
+		max-width: 1064px;
+
+		.photoContainer {
+			flex: 0 0 auto;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			position: relative;
+			box-sizing: border-box;
+
+			.photo-credit-wrapper {
+				position: relative;
+				.photo {
+					max-height: 600px;
+				}
+				.photo-credit {
+					position: absolute;
+					right: 7px;
+					bottom: 7px;
+					background-color: grey;
+					padding: 2px;
+					border-radius: 1px;
+				}
+			}
+		}
+		.score-container {
+			background: black;
+			color: white;
+			display: flex;
+			justify-content: center;
+			box-shadow: 0px -4px 4px 0px rgb(0 0 0), 0px 4px 4px 0px rgb(0 0 0);
+			padding: 10px;
+			z-index: 401; /*above map*/
+			clip-path: inset(-15px 0px -15px 0px);
+		}
+		.leaflet-container {
+			flex: 1 1 auto;
+			background-color: #131414;
+		}
+		.buttons-bar {
+			height: 35px;
+			display: flex;
+			justify-content: center;
+			margin-bottom: 20px;
+
+			button {
+				width: 80%;
+			}
+			.eager-button {
+				animation-name: color;
+				animation-duration: 1.5s;
+				animation-iteration-count: infinite;
+				animation-direction: alternate-reverse;
+				animation-timing-function: ease-in-out;
+			}
+		}
+	}
+}
+@keyframes color {
+	to {
+		background-color: aqua;
+	}
 }
 
-.stack > * {
-	margin-block: 0;
+.green-icon {
+	filter: hue-rotate(260deg);
 }
 
-.stack > * + * {
-	margin-block-start: var(--space, 1.5rem);
+/* Modals */
+dialog.infoModalDialog {
+	padding: 0;
+	background-color: lightgray;
+	max-width: min(75%, 800px);
+	.clickAbsorber {
+		height: 100%;
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+	}
+	&::backdrop {
+		background: rgba(0, 0, 0, 0.75);
+	}
+	button {
+		padding: 10px;
+	}
+}
+.dialogContainer {
+	padding: 10px;
+	display: flex;
+	flex-direction: column;
+	h3 {
+		text-shadow: none;
+		margin-top: 10px;
+	}
+	code {
+		margin-left: 10px;
+	}
+	.slotsInfo {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		width: fit-content;
+	}
 }
 
-.center {
-	box-sizing: content-box;
-	margin-inline: auto;
-	max-inline-size: var(--measure);
+.results-modal {
+	min-width: 250px;
+	.score-box {
+		display: flex;
+		padding: 10px;
+		justify-content: center;
+	}
 }
-
-/* Utility */
-
-/* Block */
-
-/* Exception */
