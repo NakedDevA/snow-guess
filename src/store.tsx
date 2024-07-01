@@ -1,4 +1,4 @@
-import { LatLngExpression, PointTuple } from "leaflet"
+import { PointTuple } from "leaflet"
 
 export type MapInfo = (typeof MAP_LIST)[number]
 export const MAP_LIST = [

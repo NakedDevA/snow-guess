@@ -1,5 +1,6 @@
 import { PointTuple } from "leaflet"
-import { ALL_PHOTOS, DatabasePhoto, GamePhoto } from "./store"
+
+import { GamePhoto } from "./store"
 import { ApiResult } from "./fakeApi"
 
 export type GameState = {

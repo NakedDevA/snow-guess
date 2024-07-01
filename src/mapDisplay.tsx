@@ -1,27 +1,24 @@
 import L, {
 	CRS,
 	DragEndEvent,
-	LatLng,
 	LatLngBounds,
 	LatLngBoundsExpression,
 	LatLngExpression,
-	LatLngTuple,
 	LeafletEventHandlerFnMap,
 	LeafletMouseEvent,
-	PointExpression,
 	PointTuple,
 } from "leaflet"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import {
 	Marker,
 	ImageOverlay,
 	useMapEvents,
 	useMap,
 	Polyline,
+	MapContainer,
 } from "react-leaflet"
-import { MapContainer } from "react-leaflet"
+
 import { GameState } from "./gameState"
-import { ApiResult, checkGuessWithApi } from "./fakeApi"
 import { MAP_LIST, MapInfo } from "./store"
 
 type MapDisplayProps = {
@@ -40,13 +37,12 @@ const makeBounds = (
 	mapImageBounds: LatLngBoundsExpression
 	leafletBounds: LatLngBoundsExpression
 } => {
+	const calcBounds: LatLngBoundsExpression | undefined = mapInfo && [
+		[-mapInfo?.size[0] / 2, -mapInfo?.size[1] / 2],
+		[mapInfo?.size[0] / 2, mapInfo?.size[1] / 2],
+	]
 	return {
-		mapImageBounds: mapInfo
-			? [
-					[-mapInfo?.size[0] / 2, -mapInfo?.size[1] / 2],
-					[mapInfo?.size[0] / 2, mapInfo?.size[1] / 2],
-				]
-			: DEFAULT_BOUNDS,
+		mapImageBounds: calcBounds ?? DEFAULT_BOUNDS,
 		leafletBounds: DEFAULT_BOUNDS,
 	}
 }
@@ -86,10 +82,12 @@ export const MapDisplay = ({ state, updateGuess }: MapDisplayProps) => {
 					<>
 						<AnswerMarker position={state.apiScore?.answerLocation} />
 
-						<Polyline
-							positions={[state.guessPosition!, state.apiScore!.answerLocation]}
-							pathOptions={dashedLineOptions}
-						/>
+						{state.guessPosition && state.apiScore && (
+							<Polyline
+								positions={[state.guessPosition, state.apiScore.answerLocation]}
+								pathOptions={dashedLineOptions}
+							/>
+						)}
 						{state.guessPosition && state.apiScore && (
 							<AutoPan
 								guess={state.guessPosition}
@@ -125,7 +123,7 @@ const GuessMarker = ({ state, setGuessPosition }: GuessMarkerProps) => {
 			[1900, 1900],
 		]
 		map.fitBounds(dest)
-	}, [state.currentPhoto?.photoId])
+	}, [map, state.currentPhoto?.photoId])
 
 	// Vile hack: leaflet draws its div into the DOM on some absolute basis.
 	// Since we're not in 1994 I'm using a responsive layout, so the layout bounds aren't necessarily final when it does this
@@ -138,8 +136,11 @@ const GuessMarker = ({ state, setGuessPosition }: GuessMarkerProps) => {
 	const markerEventHandlers: LeafletEventHandlerFnMap = {
 		dragend: (event: DragEndEvent) => {
 			if (!isGuessing) return
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 			setGuessPosition([
+				// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 				event.target["_latlng"].lat,
+				// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 				event.target["_latlng"].lng,
 			])
 		},
@@ -183,10 +184,13 @@ const AnswerMarker = ({ position }: AnswerMarkerProps) => {
 	return <Marker position={position} icon={answerIcon} />
 }
 
-const AutoPan: React.FC<{
+const AutoPan = ({
+	guess,
+	answer,
+}: {
 	guess: PointTuple
 	answer: PointTuple
-}> = ({ guess, answer }) => {
+}) => {
 	const map = useMap()
 
 	useEffect(() => {

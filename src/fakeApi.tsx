@@ -1,4 +1,5 @@
 import { Point, PointTuple } from "leaflet"
+
 import { ALL_PHOTOS, DatabasePhoto, GamePhoto } from "./store"
 
 export const API_ERROR_DESC = "An unknown error occurred, try again"

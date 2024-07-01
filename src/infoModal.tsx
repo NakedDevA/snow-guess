@@ -1,5 +1,7 @@
-import React from "react"
-import { PropsWithChildren, useEffect, useRef } from "react"
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+import React, { PropsWithChildren, useEffect, useRef } from "react"
 
 type InfoModalProps = {
 	isOpen: boolean
@@ -10,7 +12,7 @@ export const InfoModal = ({
 	closeModal,
 	children,
 }: PropsWithChildren<InfoModalProps>) => {
-	const ref = useRef<HTMLDialogElement>(null!)
+	const ref = useRef<HTMLDialogElement>(null)
 
 	useEffect(() => {
 		if (isOpen) {
@@ -21,12 +23,7 @@ export const InfoModal = ({
 	}, [isOpen])
 
 	return (
-		<dialog
-			className="infoModalDialog"
-			ref={ref}
-			onCancel={closeModal}
-			onClick={closeModal}
-		>
+		<dialog className="infoModalDialog" ref={ref} onClick={closeModal}>
 			<div
 				className="clickAbsorber"
 				onClick={(event: React.MouseEvent<HTMLElement>) =>

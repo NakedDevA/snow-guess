@@ -1,8 +1,9 @@
 import { useReducer, useState } from "react"
+import { PointTuple } from "leaflet"
+
 import { MapDisplay } from "./mapDisplay"
 import { PhotoDisplay } from "./photoDisplay"
 import { INITIAL_STATE, gameStateReducer } from "./gameState"
-import { PointTuple } from "leaflet"
 import {
 	checkGuessWithApi,
 	checkUserTotalScore,
@@ -31,8 +32,8 @@ export const Game = () => {
 	}
 
 	const handleNextPhoto = () => {
-		fetchTotalScore()
-		fetchNextPhoto()
+		void fetchTotalScore()
+		void fetchNextPhoto()
 	}
 	const fetchNextPhoto = async () => {
 		dispatch({ type: "requestNewPhoto" })
@@ -72,15 +73,19 @@ export const Game = () => {
 				closeModal={() => setShowFinishedModal(false)}
 			>
 				<div className="dialogContainer">
-					<p>WOW what a gamer you've seen every photo! Why not </p>
-					<a href="https://forms.gle/x16HvPemVuzYvDNL8" target="_blank">
+					<p>WOW what a gamer you&apos;ve seen every photo! Why not </p>
+					<a
+						href="https://forms.gle/x16HvPemVuzYvDNL8"
+						target="_blank"
+						rel="noreferrer"
+					>
 						submit a photo of your own to expand the collection?
 					</a>{" "}
 					<p>
 						You can also clear your list of viewed photos if you want to replay
 						them all:
 						<button onClick={debugClearUserData}> Clear your data</button>
-						Otherwise you'll see some repeats.
+						Otherwise you&apos;ll see some repeats.
 					</p>
 				</div>
 			</InfoModal>
@@ -88,7 +93,7 @@ export const Game = () => {
 				<>
 					<h1>Snowguessr</h1>
 					<h2>Can you recognise these points on the map?</h2>
-					<button onClick={handleNextPhoto}>i guess so</button>
+					<button onClick={() => handleNextPhoto()}>i guess so</button>
 				</>
 			) : (
 				<>
@@ -102,12 +107,14 @@ export const Game = () => {
 							{state.phase === "guessing" && state.guessPosition && (
 								<button
 									className={"eager-button"}
-									onClick={() =>
-										submitGuess(
-											state.currentPhoto!.photoId,
-											state.guessPosition!,
-										)
-									}
+									onClick={() => {
+										if (state.currentPhoto && state.guessPosition) {
+											void submitGuess(
+												state.currentPhoto.photoId,
+												state.guessPosition,
+											)
+										}
+									}}
 								>
 									Submit Guess
 								</button>
@@ -116,7 +123,10 @@ export const Game = () => {
 								<button disabled>Choose a spot!</button>
 							)}
 							{state.phase === "viewingResult" && (
-								<button className={"eager-button"} onClick={handleNextPhoto}>
+								<button
+									className={"eager-button"}
+									onClick={() => void handleNextPhoto()}
+								>
 									Next Photo
 								</button>
 							)}
