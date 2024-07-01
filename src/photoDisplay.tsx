@@ -10,7 +10,9 @@ export const PhotoDisplay = ({ photo }: PhotoDisplayProps) => {
 			{photo?.photoId ? (
 				<div className="photo-credit-wrapper">
 					<img className="photo" src={`/photos/${photo.photoId}`} />
-					<div className="photo-credit"><i>"{photo.title}"</i>, by {photo?.submitter}</div>
+					<div className="photo-credit">
+						<i>"{photo.title}"</i>, by {photo?.submitter}
+					</div>
 				</div>
 			) : (
 				<div>loading photo</div>

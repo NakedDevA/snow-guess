@@ -23,7 +23,7 @@ export const checkUserTotalScore = async (): Promise<number> => {
 
 export const checkGuessWithApi = async (
 	photoId: string,
-	guess: PointTuple
+	guess: PointTuple,
 ): Promise<ApiResult> => {
 	await new Promise((resolve) => setTimeout(resolve, 500))
 	const matchedPhoto = ALL_PHOTOS.find((photo) => photo.photoId === photoId)
@@ -33,10 +33,10 @@ export const checkGuessWithApi = async (
 			error: "Couldn't find the photo in the DB, try a different image.",
 		}
 	}
-    
-    //qqtas: should check if this photo is new and only give points if so; or track scores per-photo in the DB. Not necessary yet
-    const alreadySeenIds = getAlreadySeenPhotoIds()
-    markPhotoAsSeen(alreadySeenIds, matchedPhoto)
+
+	//qqtas: should check if this photo is new and only give points if so; or track scores per-photo in the DB. Not necessary yet
+	const alreadySeenIds = getAlreadySeenPhotoIds()
+	markPhotoAsSeen(alreadySeenIds, matchedPhoto)
 
 	const CORRECT_ANSWER_RADIUS = 10
 	const FAIL_RADIUS = 500
@@ -48,7 +48,7 @@ export const checkGuessWithApi = async (
 		distance < CORRECT_ANSWER_RADIUS
 			? MAX_SCORE
 			: Math.max(Math.round(MAX_SCORE * (1 - distance / FAIL_RADIUS)), 0)
-            
+
 	// Get user total score, update
 	const currentUserScore = getUserTotalScore()
 	const newTotalScore = currentUserScore + score
@@ -72,13 +72,13 @@ export const getNextPhotoIdFromApi = async (): Promise<{
 
 	const alreadySeenIds = getAlreadySeenPhotoIds()
 	const unseenPhotos = ALL_PHOTOS.filter(
-        (loc) => !alreadySeenIds.includes(loc.photoId)
+		(loc) => !alreadySeenIds.includes(loc.photoId),
 	)
-    
+
 	const photoCandidates = unseenPhotos.length ? unseenPhotos : ALL_PHOTOS
 	const selectedPhoto =
-    photoCandidates[Math.floor(Math.random() * photoCandidates.length)]
-    
+		photoCandidates[Math.floor(Math.random() * photoCandidates.length)]
+
 	return {
 		seenAll: !unseenPhotos.length,
 		nextPhoto: {
@@ -99,7 +99,7 @@ const markPhotoAsSeen = (seenPhotoIds: string[], newPhoto: DatabasePhoto) => {
 		localStorage.setItem(SEEN_MAPS_KEY, JSON.stringify(seenPhotoIds))
 	} catch (error) {
 		console.error(
-			`Local storage is disabled - ${SEEN_MAPS_KEY} cannot be saved`
+			`Local storage is disabled - ${SEEN_MAPS_KEY} cannot be saved`,
 		)
 	}
 }
@@ -110,7 +110,7 @@ const getAlreadySeenPhotoIds = (): string[] => {
 		return storedValue ? (JSON.parse(storedValue) as string[]) : []
 	} catch (error) {
 		console.warn(
-			`Local storage is empty or disabled - ${SEEN_MAPS_KEY} cannot be retrieved`
+			`Local storage is empty or disabled - ${SEEN_MAPS_KEY} cannot be retrieved`,
 		)
 		return []
 	}
@@ -122,7 +122,7 @@ const getUserTotalScore = (): number => {
 		return storedValue ? (JSON.parse(storedValue) as number) : 0
 	} catch (error) {
 		console.warn(
-			`Local storage is empty or disabled - ${USER_SCORE_KEY} cannot be retrieved`
+			`Local storage is empty or disabled - ${USER_SCORE_KEY} cannot be retrieved`,
 		)
 		return 0
 	}
@@ -133,7 +133,7 @@ const setUserTotalScore = (newScore: number) => {
 		localStorage.setItem(USER_SCORE_KEY, newScore.toString())
 	} catch (error) {
 		console.warn(
-			`Local storage is empty or disabled - ${USER_SCORE_KEY} cannot be set`
+			`Local storage is empty or disabled - ${USER_SCORE_KEY} cannot be set`,
 		)
 	}
 }
@@ -145,7 +145,7 @@ export const debugClearUserData = () => {
 		localStorage.removeItem(USER_SCORE_KEY)
 	} catch (error) {
 		console.warn(
-			`Local storage is empty or disabled - user data cannot be cleared`
+			`Local storage is empty or disabled - user data cannot be cleared`,
 		)
 		return []
 	}

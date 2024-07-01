@@ -81,21 +81,21 @@ export const ALL_PHOTOS: DatabasePhoto[] = [
 	},
 	{
 		photoId: "20220530191932_1.jpg",
-		mapId: 'level_ru_04_03',
+		mapId: "level_ru_04_03",
 		coords: [-326, -131],
 		//title: "stay frosty",
 		submitter: "NakedDave",
 	},
 	{
 		photoId: "20220626165324_1.jpg",
-		mapId: 'level_us_07_01',
+		mapId: "level_us_07_01",
 		coords: [-635, -764],
 		title: "exposed",
 		submitter: "NakedDave",
 	},
 	{
 		photoId: "20220802200252_1.jpg",
-		mapId: 'level_ru_02_03',
+		mapId: "level_ru_02_03",
 		coords: [77, 174],
 		title: "can't park there mate",
 		submitter: "NakedDave",
@@ -116,7 +116,7 @@ export const ALL_PHOTOS: DatabasePhoto[] = [
 	},
 	{
 		photoId: "20220928230316_1.jpg",
-		mapId: 'level_ru_04_03',
+		mapId: "level_ru_04_03",
 		coords: [-129, -365],
 		//title: "stay frosty",
 		submitter: "NakedDave",

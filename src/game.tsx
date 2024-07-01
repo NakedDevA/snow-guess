@@ -52,15 +52,13 @@ export const Game = () => {
 				closeModal={() => setShowResultsModal(false)}
 			>
 				<div className="dialogContainer results-modal">
-						<h2>Results</h2>
-						<p>You guessed: {prettyCoords(state.guessPosition)} </p>
-						<p>
-							Actual location: {prettyCoords(state.apiScore?.answerLocation)}
-						</p>
-						<p>Distance: {state.apiScore?.distance}m</p>
-						<div className="score-box">
-							<p>Score: {state.apiScore?.score} points!</p>
-						</div>
+					<h2>Results</h2>
+					<p>You guessed: {prettyCoords(state.guessPosition)} </p>
+					<p>Actual location: {prettyCoords(state.apiScore?.answerLocation)}</p>
+					<p>Distance: {state.apiScore?.distance}m</p>
+					<div className="score-box">
+						<p>Score: {state.apiScore?.score} points!</p>
+					</div>
 				</div>
 			</InfoModal>
 			<InfoModal
@@ -107,7 +105,7 @@ export const Game = () => {
 									onClick={() =>
 										submitGuess(
 											state.currentPhoto!.photoId,
-											state.guessPosition!
+											state.guessPosition!,
 										)
 									}
 								>

@@ -27,11 +27,11 @@ export type GameAction =
 	| { type: "submitGuess" }
 	| { type: "requestNewPhoto" }
 	| { type: "receiveResult"; result: ApiResult }
-	| { type: "updateTotalScore"; newScore:number }
+	| { type: "updateTotalScore"; newScore: number }
 
 export function gameStateReducer(
 	state: GameState,
-	action: GameAction
+	action: GameAction,
 ): GameState {
 	switch (action.type) {
 		case "changePhoto": {
@@ -76,10 +76,10 @@ export function gameStateReducer(
 				}
 			}
 		}
-		case 'updateTotalScore': {
-			return{
-				...state, 
-				localTotalScore:action.newScore
+		case "updateTotalScore": {
+			return {
+				...state,
+				localTotalScore: action.newScore,
 			}
 		}
 	}

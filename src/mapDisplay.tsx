@@ -35,7 +35,7 @@ const DEFAULT_BOUNDS: LatLngBoundsExpression = [
 ]
 const INITIAL_ZOOM_LEVEL = -3
 const makeBounds = (
-	mapInfo?: MapInfo
+	mapInfo?: MapInfo,
 ): {
 	mapImageBounds: LatLngBoundsExpression
 	leafletBounds: LatLngBoundsExpression
@@ -45,7 +45,7 @@ const makeBounds = (
 			? [
 					[-mapInfo?.size[0] / 2, -mapInfo?.size[1] / 2],
 					[mapInfo?.size[0] / 2, mapInfo?.size[1] / 2],
-			  ]
+				]
 			: DEFAULT_BOUNDS,
 		leafletBounds: DEFAULT_BOUNDS,
 	}
@@ -90,7 +90,7 @@ export const MapDisplay = ({ state, updateGuess }: MapDisplayProps) => {
 							positions={[state.guessPosition!, state.apiScore!.answerLocation]}
 							pathOptions={dashedLineOptions}
 						/>
-						{state.guessPosition && state.apiScore &&(
+						{state.guessPosition && state.apiScore && (
 							<AutoPan
 								guess={state.guessPosition}
 								answer={state.apiScore.answerLocation}

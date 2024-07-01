@@ -1,9 +1,9 @@
-import { createRoot } from "react-dom/client";
+import { createRoot } from "react-dom/client"
 
-import { App } from "./app";
+import { App } from "./app"
 
-const rootElement = document.querySelector("#root");
+const rootElement = document.querySelector("#root")
 
 if (rootElement) {
-	createRoot(rootElement).render(<App />);
+	createRoot(rootElement).render(<App />)
 }
