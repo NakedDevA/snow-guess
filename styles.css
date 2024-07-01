@@ -62,6 +62,7 @@ button {
 			align-items: center;
 			position: relative;
 			box-sizing: border-box;
+			aspect-ratio: 16/9;
 
 			.photo-credit-wrapper {
 				position: relative;
