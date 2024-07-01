@@ -125,14 +125,6 @@ const GuessMarker = ({ state, setGuessPosition }: GuessMarkerProps) => {
 		map.fitBounds(dest)
 	}, [map, state.currentPhoto?.photoId])
 
-	// Vile hack: leaflet draws its div into the DOM on some absolute basis.
-	// Since we're not in 1994 I'm using a responsive layout, so the layout bounds aren't necessarily final when it does this
-	// We delay slightly to make sure the layout is taking account of the image above, then force the map to check bounds again
-	map.whenReady(() => {
-		setTimeout(() => {
-			window.dispatchEvent(new Event("resize"))
-		}, 50)
-	})
 	const markerEventHandlers: LeafletEventHandlerFnMap = {
 		dragend: (event: DragEndEvent) => {
 			if (!isGuessing) return
