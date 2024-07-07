@@ -1,9 +1,10 @@
 import { PointTuple } from "leaflet"
 
-import { GamePhoto } from "./store"
+import { GamePhoto, MAP_LIST } from "./store"
 import { ApiResult } from "./fakeApi"
 
 export type GameState = {
+	userSelectedMapId?: string
 	phase:
 		| "intro"
 		| "awaitingPhoto"
@@ -29,10 +30,11 @@ export type GameAction =
 	| { type: "requestNewPhoto" }
 	| { type: "receiveResult"; result: ApiResult }
 	| { type: "updateTotalScore"; newScore: number }
+	| { type: "selectMap"; mapId: string }
 
 export function gameStateReducer(
 	state: GameState,
-	action: GameAction,
+	action: GameAction
 ): GameState {
 	switch (action.type) {
 		case "changePhoto": {
@@ -41,6 +43,7 @@ export function gameStateReducer(
 				phase: "guessing",
 				currentPhoto: action.newPhoto,
 				guessPosition: undefined,
+				userSelectedMapId:undefined, 
 				apiScore: state.apiScore,
 			}
 		}
@@ -51,7 +54,7 @@ export function gameStateReducer(
 			}
 		}
 		case "requestNewPhoto": {
-			return { ...state, guessPosition: undefined, phase: "awaitingPhoto" }
+			return { ...state, guessPosition: undefined, phase: "awaitingPhoto", apiError:undefined }
 		}
 		case "submitGuess": {
 			return {
@@ -81,6 +84,21 @@ export function gameStateReducer(
 			return {
 				...state,
 				localTotalScore: action.newScore,
+			}
+		}
+		case "selectMap": {
+			const matchedMapId = MAP_LIST.find((map) => map.id === action.mapId)?.id
+			if (matchedMapId) {
+				return {
+					...state,
+					guessPosition:undefined,
+					userSelectedMapId: matchedMapId,
+				}
+			} else {
+				return {
+					...state,
+					apiError: "Map ID not found",
+				}
 			}
 		}
 	}

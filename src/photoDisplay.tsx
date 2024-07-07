@@ -1,3 +1,6 @@
+import React, { useState, useEffect } from "react"
+
+import { LoadingSpinner } from "./loadingSpinner"
 import { GamePhoto } from "./store"
 
 type PhotoDisplayProps = {
@@ -5,19 +8,37 @@ type PhotoDisplayProps = {
 }
 
 export const PhotoDisplay = ({ photo }: PhotoDisplayProps) => {
+	const [imageLoaded, setImageLoaded] = useState(false)
+
+	useEffect(() => {
+		setImageLoaded(false) // Reset the imageLoaded state when photo changes
+	}, [photo])
+
+	const handleImageLoad = () => {
+		setImageLoaded(true)
+	}
+
 	return (
-		<div className="photoContainer">
+		<div className="photo-container">
+			{photo?.photoId && !imageLoaded ? <LoadingSpinner /> : null}
 			{photo?.photoId ? (
-				<div className="photo-credit-wrapper">
-					<img className="photo" src={`photos/${photo.photoId}`} alt="" />
-					<div className="photo-credit">
-						<i>&quot;{photo.title}&quot;</i>, by {photo?.submitter}
-					</div>
-				</div>
+				<>
+					<img
+						className="photo"
+						src={`photos/${photo.photoId}`}
+						alt=""
+						onLoad={handleImageLoad}
+						style={{ display: imageLoaded ? "block" : "none" }}
+					/>
+					{imageLoaded && (
+						<div className="photo-credit">
+							<i>&quot;{photo.title}&quot;</i>, by {photo?.submitter}
+						</div>
+					)}
+				</>
 			) : (
-				<div>loading photo</div>
+				<LoadingSpinner />
 			)}
-			<div className="photoInfo"></div>
 		</div>
 	)
 }

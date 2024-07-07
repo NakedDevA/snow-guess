@@ -12,10 +12,12 @@ import {
 } from "./fakeApi"
 import { InfoModal } from "./infoModal"
 import { ScoreDisplay } from "./scoreDisplay"
+import { MapSelector } from "./mapSelector"
 
 export const Game = () => {
 	const [state, dispatch] = useReducer(gameStateReducer, INITIAL_STATE)
 	const [showResultsModal, setShowResultsModal] = useState(false)
+	const [showWrongMapModal, setShowWrongMapModal] = useState(false)
 	const [showErrorModal, setShowErrorModal] = useState(false)
 	const [showFinishedModal, setShowFinishedModal] = useState(false)
 
@@ -23,10 +25,15 @@ export const Game = () => {
 		dispatch({ type: "updateGuess", position })
 	}
 
-	const submitGuess = async (photoId: string, guess: PointTuple) => {
+	const submitGuess = async (
+		photoId: string,
+		guess: PointTuple,
+		userSelectedMapId: string
+	) => {
 		dispatch({ type: "submitGuess" })
-		const response = await checkGuessWithApi(photoId, guess)
+		const response = await checkGuessWithApi(photoId, guess, userSelectedMapId)
 		dispatch({ type: "receiveResult", result: response })
+		if (response.status === "wrongMap") setShowWrongMapModal(true)
 		if (response.guessResult) setShowResultsModal(true)
 		if (response.error) setShowErrorModal(true)
 	}
@@ -39,6 +46,7 @@ export const Game = () => {
 		dispatch({ type: "requestNewPhoto" })
 		const response = await getNextPhotoIdFromApi()
 		if (response.seenAll) setShowFinishedModal(true) //qqtas horrible when testing
+		console.log(`fetched ${response.nextPhoto.photoId}`)
 		dispatch({ type: "changePhoto", newPhoto: response.nextPhoto })
 	}
 
@@ -46,6 +54,10 @@ export const Game = () => {
 		const score = await checkUserTotalScore()
 		dispatch({ type: "updateTotalScore", newScore: score })
 	}
+	const handleMapSelect = (mapId: string) => {
+		dispatch({ type: "selectMap", mapId: mapId })
+	}
+
 	return (
 		<>
 			<InfoModal
@@ -61,6 +73,12 @@ export const Game = () => {
 						<p>Score: {state.apiScore?.score} points!</p>
 					</div>
 				</div>
+			</InfoModal>
+			<InfoModal
+				isOpen={showWrongMapModal}
+				closeModal={() => setShowWrongMapModal(false)}
+			>
+				<div className="dialogContainer">Bad luck - the photo is from a different map. Guess again!</div>
 			</InfoModal>
 			<InfoModal
 				isOpen={showErrorModal}
@@ -90,20 +108,44 @@ export const Game = () => {
 				</div>
 			</InfoModal>
 			{state.phase === "intro" ? (
-				<>
-					<h1>Snowguessr</h1>
-					<h2>Can you recognise these points on the map?</h2>
+				<div className="landing">
+					<img className="hero" src={"icons/title.png"} alt="Snowguessr" />
+					<h2 className="sub-title">Can you locate the truck?</h2>
 					<button onClick={() => handleNextPhoto()}>i guess so</button>
-				</>
+					<div className="call-to-submit-photo">
+						Got a pic you&apos;d like to share?{" "}
+						<a
+							href="https://forms.gle/x16HvPemVuzYvDNL8"
+							target="_blank"
+							rel="noreferrer"
+						>
+							Submit a photo
+						</a>
+					</div>
+				</div>
 			) : (
 				<>
 					<div className="game-container">
 						<PhotoDisplay photo={state.currentPhoto} />
-						<ScoreDisplay state={state} />
+						<div className="center-strip">
+							<div className="top-row">
+								<a
+									href="https://forms.gle/x16HvPemVuzYvDNL8"
+									target="_blank"
+									rel="noreferrer"
+								>
+									Submit a photo
+								</a>
+								<ScoreDisplay state={state} />
+							</div>
+							<MapSelector state={state} handleMapSelect={handleMapSelect} />
+						</div>
 						<MapDisplay state={state} updateGuess={updateGuess} />
 						<div className="buttons-bar">
 							{(state.phase === "awaitingResult" ||
-								state.phase === "awaitingPhoto") && <div>LOADING...</div>}
+								state.phase === "awaitingPhoto") && (
+								<button disabled>LOADING...</button>
+							)}
 							{state.phase === "guessing" && state.guessPosition && (
 								<button
 									className={"eager-button"}
@@ -112,6 +154,7 @@ export const Game = () => {
 											void submitGuess(
 												state.currentPhoto.photoId,
 												state.guessPosition,
+												state.userSelectedMapId
 											)
 										}
 									}}
