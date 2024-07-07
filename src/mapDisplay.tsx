@@ -116,17 +116,18 @@ const GuessMarker = ({ state, setGuessPosition }: GuessMarkerProps) => {
 
 			// log out location for easy content adding
 			console.log(`DEBUG QQ: `)
-			console.log(`[${Math.round(e.latlng.lat*100)/100},${Math.round(e.latlng.lng*100)/100}],`)
+			console.log(
+				`[${Math.round(e.latlng.lat * 100) / 100},${Math.round(e.latlng.lng * 100) / 100}],`,
+			)
 		},
 	})
 
 	//reset zoom after changing photo
 	useEffect(() => {
-
 		const mapInfo = MAP_LIST.find((map) => map.id === state.userSelectedMapId)
-		if (mapInfo){
-			const yLimit = mapInfo.size[0]/2
-			const xLimit = mapInfo.size[1]/2
+		if (mapInfo) {
+			const yLimit = mapInfo.size[0] / 2
+			const xLimit = mapInfo.size[1] / 2
 			const dest: LatLngBoundsExpression = [
 				[-yLimit, -xLimit],
 				[yLimit, xLimit],

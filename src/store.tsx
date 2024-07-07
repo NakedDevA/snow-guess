@@ -28,14 +28,26 @@ export const MAP_LIST = [
 
 	{ id: "level_ru_04_01", size: [2016, 2016], name: "Urksa River" },
 	{ id: "level_ru_04_02", size: [2016, 2016], name: "Cosmodrome" },
-	{ id: "level_ru_04_03", size: [2016, 2016], name: "Northern Aegis Installation" },
+	{
+		id: "level_ru_04_03",
+		size: [2016, 2016],
+		name: "Northern Aegis Installation",
+	},
 	{ id: "level_ru_04_04", size: [2016, 2016], name: "Chernokamensk" },
 
 	{ id: "level_ru_05_01", size: [1008, 1008], name: "Factory Grounds" },
-	{ id: "level_ru_05_02", size: [1008, 1008], name: "Antonovskiy Nature Reserve" },
+	{
+		id: "level_ru_05_02",
+		size: [1008, 1008],
+		name: "Antonovskiy Nature Reserve",
+	},
 
 	{ id: "level_us_06_01", size: [2016, 2016], name: "The Lowland" },
-	{ id: "level_us_06_02", size: [2016, 2016], name: "Yellowrock National Forest" },
+	{
+		id: "level_us_06_02",
+		size: [2016, 2016],
+		name: "Yellowrock National Forest",
+	},
 	{ id: "level_us_07_01", size: [2016, 2016], name: "Burning Mill" },
 	{ id: "level_ru_08_01", size: [2016, 2016], name: "Crossroads" },
 	{ id: "level_ru_08_02", size: [2016, 2016], name: "The Institute" },
@@ -46,7 +58,11 @@ export const MAP_LIST = [
 	{ id: "level_us_09_02", size: [2016, 2016], name: "Burned Forest" },
 
 	{ id: "level_us_10_01", size: [2016, 2016], name: "Duncan Bay" },
-	{ id: "level_us_10_02", size: [2016, 2016], name: "North Peak National Park"},
+	{
+		id: "level_us_10_02",
+		size: [2016, 2016],
+		name: "North Peak National Park",
+	},
 
 	{ id: "level_us_11_01", size: [2016, 2016], name: "Mountain Ridge" },
 	{ id: "level_us_11_02", size: [2016, 2016], name: "By the Lake" },
@@ -54,7 +70,7 @@ export const MAP_LIST = [
 	{ id: "level_us_12_01", size: [2016, 2016], name: "Pineline Bay" },
 	{ id: "level_us_12_02", size: [2016, 2016], name: "Reactive Zone" },
 	{ id: "level_us_12_03", size: [2016, 2016], name: "Flatland" },
-	{ id: "level_us_12_04", size: [2016, 2016], name: "Oviro Hills"},
+	{ id: "level_us_12_04", size: [2016, 2016], name: "Oviro Hills" },
 	{ id: "level_ru_13_01", size: [2016, 2016], name: "Zherbai Quarries" },
 ] as const
 

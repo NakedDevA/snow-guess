@@ -28,7 +28,7 @@ export const Game = () => {
 	const submitGuess = async (
 		photoId: string,
 		guess: PointTuple,
-		userSelectedMapId: string
+		userSelectedMapId: string,
 	) => {
 		dispatch({ type: "submitGuess" })
 		const response = await checkGuessWithApi(photoId, guess, userSelectedMapId)
@@ -78,7 +78,9 @@ export const Game = () => {
 				isOpen={showWrongMapModal}
 				closeModal={() => setShowWrongMapModal(false)}
 			>
-				<div className="dialogContainer">Bad luck - the photo is from a different map. Guess again!</div>
+				<div className="dialogContainer">
+					Bad luck - the photo is from a different map. Guess again!
+				</div>
 			</InfoModal>
 			<InfoModal
 				isOpen={showErrorModal}
@@ -150,11 +152,15 @@ export const Game = () => {
 								<button
 									className={"eager-button"}
 									onClick={() => {
-										if (state.currentPhoto && state.guessPosition) {
+										if (
+											state.currentPhoto &&
+											state.guessPosition &&
+											state.userSelectedMapId
+										) {
 											void submitGuess(
 												state.currentPhoto.photoId,
 												state.guessPosition,
-												state.userSelectedMapId
+												state.userSelectedMapId,
 											)
 										}
 									}}

@@ -34,7 +34,7 @@ export type GameAction =
 
 export function gameStateReducer(
 	state: GameState,
-	action: GameAction
+	action: GameAction,
 ): GameState {
 	switch (action.type) {
 		case "changePhoto": {
@@ -43,7 +43,7 @@ export function gameStateReducer(
 				phase: "guessing",
 				currentPhoto: action.newPhoto,
 				guessPosition: undefined,
-				userSelectedMapId:undefined, 
+				userSelectedMapId: undefined,
 				apiScore: state.apiScore,
 			}
 		}
@@ -54,7 +54,12 @@ export function gameStateReducer(
 			}
 		}
 		case "requestNewPhoto": {
-			return { ...state, guessPosition: undefined, phase: "awaitingPhoto", apiError:undefined }
+			return {
+				...state,
+				guessPosition: undefined,
+				phase: "awaitingPhoto",
+				apiError: undefined,
+			}
 		}
 		case "submitGuess": {
 			return {
@@ -91,7 +96,7 @@ export function gameStateReducer(
 			if (matchedMapId) {
 				return {
 					...state,
-					guessPosition:undefined,
+					guessPosition: undefined,
 					userSelectedMapId: matchedMapId,
 				}
 			} else {

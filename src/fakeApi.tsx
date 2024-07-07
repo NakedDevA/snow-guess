@@ -25,7 +25,7 @@ export const checkUserTotalScore = async (): Promise<number> => {
 export const checkGuessWithApi = async (
 	photoId: string,
 	guess: PointTuple,
-	userSelectedMapId: string
+	userSelectedMapId: string,
 ): Promise<ApiResult> => {
 	await new Promise((resolve) => setTimeout(resolve, 500))
 	const matchedPhoto = ALL_PHOTOS.find((photo) => photo.photoId === photoId)
@@ -80,7 +80,7 @@ export const getNextPhotoIdFromApi = async (): Promise<{
 
 	const alreadySeenIds = getAlreadySeenPhotoIds()
 	const unseenPhotos = ALL_PHOTOS.filter(
-		(loc) => !alreadySeenIds.includes(loc.photoId)
+		(loc) => !alreadySeenIds.includes(loc.photoId),
 	)
 
 	const photoCandidates = unseenPhotos.length ? unseenPhotos : ALL_PHOTOS
@@ -107,7 +107,7 @@ const markPhotoAsSeen = (seenPhotoIds: string[], newPhoto: DatabasePhoto) => {
 		localStorage.setItem(SEEN_MAPS_KEY, JSON.stringify(seenPhotoIds))
 	} catch (error) {
 		console.error(
-			`Local storage is disabled - ${SEEN_MAPS_KEY} cannot be saved`
+			`Local storage is disabled - ${SEEN_MAPS_KEY} cannot be saved`,
 		)
 	}
 }
@@ -118,7 +118,7 @@ const getAlreadySeenPhotoIds = (): string[] => {
 		return storedValue ? (JSON.parse(storedValue) as string[]) : []
 	} catch (error) {
 		console.warn(
-			`Local storage is empty or disabled - ${SEEN_MAPS_KEY} cannot be retrieved`
+			`Local storage is empty or disabled - ${SEEN_MAPS_KEY} cannot be retrieved`,
 		)
 		return []
 	}
@@ -130,7 +130,7 @@ const getUserTotalScore = (): number => {
 		return storedValue ? (JSON.parse(storedValue) as number) : 0
 	} catch (error) {
 		console.warn(
-			`Local storage is empty or disabled - ${USER_SCORE_KEY} cannot be retrieved`
+			`Local storage is empty or disabled - ${USER_SCORE_KEY} cannot be retrieved`,
 		)
 		return 0
 	}
@@ -141,7 +141,7 @@ const setUserTotalScore = (newScore: number) => {
 		localStorage.setItem(USER_SCORE_KEY, newScore.toString())
 	} catch (error) {
 		console.warn(
-			`Local storage is empty or disabled - ${USER_SCORE_KEY} cannot be set`
+			`Local storage is empty or disabled - ${USER_SCORE_KEY} cannot be set`,
 		)
 	}
 }
@@ -153,7 +153,7 @@ export const debugClearUserData = () => {
 		localStorage.removeItem(USER_SCORE_KEY)
 	} catch (error) {
 		console.warn(
-			`Local storage is empty or disabled - user data cannot be cleared`
+			`Local storage is empty or disabled - user data cannot be cleared`,
 		)
 		return []
 	}
